@@ -21,7 +21,9 @@ class ServerModule(config: Config, ws: WsModule):
   private def wsRoutes(wsb: WebSocketBuilder2[IO]): HttpRoutes[IO] =
     HttpRoutes.of[IO]:
       case GET -> Root / "ws" =>
-        wsb.build(ws.send, ws.receive)
+        ws.connection.flatMap { (send, receive) =>
+          wsb.build(send, receive)
+        }
   private def devReloadRoute: HttpRoutes[IO] =
     HttpRoutes.of[IO]:
       case GET -> Root / "dev-reload" =>
