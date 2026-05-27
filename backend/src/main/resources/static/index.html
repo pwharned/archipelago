@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archipelago</title>
+    <style>
+      #app-container.disconnected {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Archipelago</h1>
+    <div id="connection-status"></div>
+    <div id="app-container">
+      <div id="counter-island"></div>
+      <div id="submit-name-island"></div>
+    </div>
+    <script type="module">
+      import { init } from "/js/main.js";
+      import { mountConnection } from "/js/connection.js";
+      //import { mountCounter } from "/js/counter.js";
+      import { mountSubmit } from "/js/submit.js";
+      init();
+      //mountConnection(document.getElementById("connection-status"));
+      //mountCounter(document.getElementById("counter-island"));
+      mountSubmit(document.getElementById("submit-name-island"));
+    </script>
+    <script>
+      fetch("/dev-reload").then((res) => {
+        if (!res.ok) return;
+        const es = new EventSource("/dev-reload");
+        es.onerror = () => {
+          es.close();
+          setTimeout(() => window.location.reload(), 500);
+        };
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# sbt
+target/
+project/target/
+project/project/
+# scala-js output
+static/js/
+# metals / bloop
+.metals/
+.bloop/
+.bsp/
+# ide
+.idea/
+*.iml
+# os
+.DS_Store
